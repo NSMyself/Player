@@ -26,11 +26,11 @@
 
 import UIKit
 
-let videoUrl = NSURL(string: "https://v.cdn.vine.co/r/videos/AA3C120C521177175800441692160_38f2cbd1ffb.1.5.13763579289575020226.mp4")!
+let videoUrl = URL(string: "https://v.cdn.vine.co/r/videos/AA3C120C521177175800441692160_38f2cbd1ffb.1.5.13763579289575020226.mp4")!
 
 class ViewController: UIViewController, PlayerDelegate {
 
-    private var player: Player!
+    fileprivate var player: Player!
     
     // MARK: object lifecycle
     
@@ -42,7 +42,7 @@ class ViewController: UIViewController, PlayerDelegate {
         super.init(coder: aDecoder)
     }
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -51,18 +51,18 @@ class ViewController: UIViewController, PlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.autoresizingMask = ([UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight])
+        self.view.autoresizingMask = ([UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight])
 
         self.player = Player()
         self.player.delegate = self
         self.player.view.frame = self.view.bounds
-        self.player.setupIcons(UIImage(named: "Play"), pause: UIImage(named: "Pause"), restart: UIImage(named: "Restart"))
+        self.player.setupIcons(play: UIImage(named: "Play"), pause: UIImage(named: "Pause"), restart: UIImage(named: "Restart"))
 
         self.addChildViewController(self.player)
         self.view.addSubview(self.player.view)
-        self.player.didMoveToParentViewController(self)
+        self.player.didMove(toParentViewController: self)
         
-        self.player.setUrl(videoUrl)
+        self.player.url = videoUrl
         
         self.player.playbackLoops = false
         
@@ -71,21 +71,21 @@ class ViewController: UIViewController, PlayerDelegate {
         self.player.view.addGestureRecognizer(tapGestureRecognizer)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
     // MARK: UIGestureRecognizer
     
-    func handleTapGestureRecognizer(gestureRecognizer: UITapGestureRecognizer) {
+    func handleTapGestureRecognizer(_ gestureRecognizer: UITapGestureRecognizer) {
         switch (self.player.playbackState.rawValue) {
-            case PlaybackState.Stopped.rawValue:
+            case PlaybackState.stopped.rawValue:
                 self.player.playFromBeginning()
-            case PlaybackState.Paused.rawValue:
+            case PlaybackState.paused.rawValue:
                 self.player.playFromCurrentTime()
-            case PlaybackState.Playing.rawValue:
+            case PlaybackState.playing.rawValue:
                 self.player.pause()
-            case PlaybackState.Failed.rawValue:
+            case PlaybackState.failed.rawValue:
                 self.player.pause()
             default:
                 self.player.pause()
@@ -94,22 +94,22 @@ class ViewController: UIViewController, PlayerDelegate {
 
     // MARK: PlayerDelegate
     
-    func playerReady(player: Player) {
+    func playerReady(_ player: Player) {
     }
     
-    func playerPlaybackStateDidChange(player: Player) {
+    func playerPlaybackStateDidChange(_ player: Player) {
     }
 
-    func playerBufferingStateDidChange(player: Player) {
+    func playerBufferingStateDidChange(_ player: Player) {
     }
 
-    func playerPlaybackWillStartFromBeginning(player: Player) {
+    func playerPlaybackWillStartFromBeginning(_ player: Player) {
     }
     
-    func playerPlaybackDidEnd(player: Player) {
+    func playerPlaybackDidEnd(_ player: Player) {
     }
     
-    func playerCurrentTimeDidChange(player: Player) {
+    func playerCurrentTimeDidChange(_ player: Player) {
     }
 
 }
