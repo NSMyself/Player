@@ -4,6 +4,8 @@
 
 `Player` is a simple iOS video player library written in [Swift](https://developer.apple.com/swift/).
 
+This branch adds support for buttons (play, pause, restart).
+
 ### Features
 - [x] plays local media or streams remote media over HTTP
 - [x] customizable UI and user interaction
